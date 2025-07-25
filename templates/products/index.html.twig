@@ -5,5 +5,7 @@
 {% block body %}
 <h1>Produits</h1>
 <a href='{{path('home')}}'>Accueil</a>
-
+{% for sweatshirt in sweatshirts %}
+    {% include 'partials/sweatshirtCard.html.twig' %}
+{% endfor %}
 {% endblock %}

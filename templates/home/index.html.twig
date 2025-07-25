@@ -5,8 +5,11 @@
 {% block body %}
 <main>
     <h1>Accueil</h1>
-    <a href="{{path('products')}}">Produits</a>
+    <a href="{{path('products.index')}}">Produits</a>
     <div>
+    {% for sweatshirt in sweatshirtsTop %}
+        {% include 'partials/sweatshirtCard.html.twig' %}
+    {% endfor %}
     </div>
 </main>
 {% endblock %}
