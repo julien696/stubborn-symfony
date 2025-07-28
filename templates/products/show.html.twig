@@ -5,17 +5,23 @@
 {% block body %}
 <h1>Produit</h1>
 <a href='{{path('home')}}'>Accueil</a>
-<div>
+<div class="d-flex flex-column align-items-center">
     <!-- <img src="" alt=""> -->
-    <div>
+    <div class="w-75 text-center">
         <div>
             <div>
-                <h2>{{sweatshirt.name}}</h2>
-                <span>{{sweatshirt.price}}</span>
+                <h2 class="mb-2">{{sweatshirt.name}}</h2>
+                <span class="d-block mb-3">{{sweatshirt.price}}</span>
             </div>
-            <!-- <form id=form-size> -->
+            {{ form_start(form, {
+                'attr': {'id': 'add-to-cart-form'},
+                'action': path('cart_add_sweatshirt', {'id': sweatshirt.id}),
+                'method': 'POST'}) }}
+                {{ form_row(form.sweatshirtSize, {'attr': {'class': 'form-select mb-3 text-center', 'size': '5'}}) }}
+                {{ form_row(form.quantity, {'attr': {'class': 'form-control mb-3'}}) }}
+            {{ form_end(form) }}
         </div>
-        <button type="" form="">Ajouter au panier</button>
+        <button type="submit" form="add-to-cart-form" class="btn btn-primary">Ajouter au panier</button>
     </div>
 </div>
 {% endblock %}
