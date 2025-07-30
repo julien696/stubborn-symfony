@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard Admin{% endblock %}
+
+{% block body %}
+<main  class="container my-5">
+    <h1 class="mb-5">Dashboard Admin</h1>
+    <section>
+        <div class="mb-5 d-flex justify-content-evenly">
+            <div>
+                <h2 class="mb-2">Ajouter un Sweatshirt</h2>
+                {{ form_start(addSweatshirtForm) }}
+                    {{ form_widget(addSweatshirtForm) }}
+                    <button type="submit" class="btn btn-primary mt-2">Ajouter</button>
+                {{ form_end(addSweatshirtForm) }}
+            </div>
+            <div>
+                <h2 class="mb-2">Ajouter des tailles </h2>
+                <form method="POST" action="{{ path('admin.addSweatshirtSize') }}">
+                    <label for="sweatshirt_id" class="form-label">Sweatshirt :</label>
+                    <select name="sweatshirt_id" id="sweatshirt_id" class="form-select" requiered>
+                        {% for sweatshirt in sweatshirts %}
+                        <option value="{{ sweatshirt.id }}">{{ sweatshirt.name }}</option>
+                        {% endfor %}
+                    </select>
+                    {{ form_widget(addSweatshirtSizeForm) }}
+                    <button type="submit" class="btn btn-primary mt-2">Ajouter</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <h2 class="mb-2">Modifier un Sweatshirt</h2>
+            <form method="POST" action="{{ path('admin.editSweatshirt') }}">
+                <label for="sweatshirt_id" class="form-label">Sweatshirt :</label>
+                <select name="sweatshirt_id" id="sweatshirt_id" class="form-select" requiered>
+                    {% for sweatshirt in sweatshirts %}
+                    <option value="{{ sweatshirt.id }}">{{ sweatshirt.name }}</option>
+                    {% endfor %}
+                </select>
+                {{ form_widget(editSweatshirtForm) }}
+                <button type="submit" class="btn btn-primary mt-2">Modifier</button>
+            </form>
+        </div>
+
+        <div>
+            <h2>Supprimer un Sweatshirt</h2>
+            <form method="POST" action="{{ path('admin.deleteSweatshirt') }}">
+                <label for="sweatshirt_id" class="form-label">Sweatshirt :</label>
+                <select name="sweatshirt_id" id="sweatshirt_id" class="form-select" requiered>
+                    {% for sweatshirt in sweatshirts %}
+                    <option value="{{ sweatshirt.id }}">{{ sweatshirt.name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-danger mt-2" onclick="return confirm('Voulez-vous supprimer ce sweatshirt ?')">Supprimer</button>
+            </form>
+        </div>
+    </section>
+</main>
+{% endblock %}

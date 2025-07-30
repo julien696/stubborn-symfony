@@ -19,7 +19,7 @@ class CartService
         $cart = $this->session->get('cart', []);
         $id = $sweatshirtSize->getId();
 
-        if(isset($card[$id])) {
+        if(isset($cart[$id])) {
             $cart[$id]['quantity'] += $quantity;
         } else {
             $cart[$id] = [

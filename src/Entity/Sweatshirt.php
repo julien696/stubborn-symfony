@@ -27,7 +27,7 @@ class Sweatshirt
     /**
      * @var Collection<int, SweatshirtSize>
      */
-    #[ORM\OneToMany(targetEntity: SweatshirtSize::class, mappedBy: 'sweatshirt')]
+    #[ORM\OneToMany(targetEntity: SweatshirtSize::class, mappedBy: 'sweatshirt', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $sweatshirtSizes;
 
     public function __construct()
