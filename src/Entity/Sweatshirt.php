@@ -6,8 +6,12 @@ use App\Repository\SweatshirtRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SweatshirtRepository::class)]
+#[Vich\Uploadable()]
 class Sweatshirt
 {
     #[ORM\Id]
@@ -24,11 +28,23 @@ class Sweatshirt
     #[ORM\Column(nullable: true)]
     private ?bool $top = null;
 
+    #[ORM\Column(nullable:true)]
+    private ?string $imageName = null;
+
+    #[Vich\UploadableField(mapping: 'sweatshirts', fileNameProperty: 'imageName')]
+    #[Assert\Image()]
+    private ?File $imageFile = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+
     /**
      * @var Collection<int, SweatshirtSize>
      */
     #[ORM\OneToMany(targetEntity: SweatshirtSize::class, mappedBy: 'sweatshirt', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $sweatshirtSizes;
+
 
     public function __construct()
     {
@@ -45,7 +61,7 @@ class Sweatshirt
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(?string $name): static
     {
         $this->name = $name;
 
@@ -57,7 +73,7 @@ class Sweatshirt
         return $this->price;
     }
 
-    public function setPrice(float $price): static
+    public function setPrice(?float $price): static
     {
         $this->price = $price;
 
@@ -74,6 +90,43 @@ class Sweatshirt
         $this->top = $top;
 
         return $this;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(?string $imageName): static
+    {
+        $this->imageName = $imageName;
+        return $this;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile): static
+    {
+        $this->imageFile = $imageFile;
+
+        if ($imageFile !== null) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+        
+        return $this;
+    }
+    
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -104,4 +157,5 @@ class Sweatshirt
 
         return $this;
     }
+
 }
