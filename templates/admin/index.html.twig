@@ -18,7 +18,7 @@
                 <h2 class="mb-2">Ajouter des tailles </h2>
                 <form method="POST" action="{{ path('admin.addSweatshirtSize') }}">
                     <label for="sweatshirt_id" class="form-label">Sweatshirt :</label>
-                    <select name="sweatshirt_id" id="sweatshirt_id" class="form-select" requiered>
+                    <select name="sweatshirt_id" id="sweatshirt_id" class="form-select" required>
                         {% for sweatshirt in sweatshirts %}
                         <option value="{{ sweatshirt.id }}">{{ sweatshirt.name }}</option>
                         {% endfor %}
@@ -31,9 +31,9 @@
 
         <div class="mb-5">
             <h2 class="mb-2">Modifier un Sweatshirt</h2>
-            <form method="POST" action="{{ path('admin.editSweatshirt') }}">
+            <form method="POST" action="{{ path('admin.editSweatshirt') }}" enctype="multipart/form-data">
                 <label for="sweatshirt_id" class="form-label">Sweatshirt :</label>
-                <select name="sweatshirt_id" id="sweatshirt_id" class="form-select" requiered>
+                <select name="sweatshirt_id" id="sweatshirt_id" class="form-select" required>
                     {% for sweatshirt in sweatshirts %}
                     <option value="{{ sweatshirt.id }}">{{ sweatshirt.name }}</option>
                     {% endfor %}
@@ -47,7 +47,7 @@
             <h2>Supprimer un Sweatshirt</h2>
             <form method="POST" action="{{ path('admin.deleteSweatshirt') }}">
                 <label for="sweatshirt_id" class="form-label">Sweatshirt :</label>
-                <select name="sweatshirt_id" id="sweatshirt_id" class="form-select" requiered>
+                <select name="sweatshirt_id" id="sweatshirt_id" class="form-select" required>
                     {% for sweatshirt in sweatshirts %}
                     <option value="{{ sweatshirt.id }}">{{ sweatshirt.name }}</option>
                     {% endfor %}

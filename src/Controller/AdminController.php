@@ -24,7 +24,7 @@ final class AdminController extends AbstractController
 
         $addSweatshirtForm = $this->createForm(SweatshirtType::class, new Sweatshirt(), [
             'action' => $this->generateUrl('admin.addSweatshirt'),
-            'method' => 'POST'
+            'method' => 'POST',
         ]);
 
        $editSweatshirtForm = $this->createForm(SweatshirtType::class, new Sweatshirt());
@@ -37,7 +37,7 @@ final class AdminController extends AbstractController
             if($selectedSweatshirt) {
                  $editSweatshirtForm = $this->createForm(SweatshirtType::class, $selectedSweatshirt, [
                 'action' => $this->generateUrl('admin.editSweatshirt', ['id' => $selectedId]),
-                'method' => 'POST'
+                'method' => 'POST',
                 ]);
             }
         }
@@ -65,7 +65,7 @@ final class AdminController extends AbstractController
      
         $form = $this->createForm(SweatshirtType::class, $sweatshirt, [
             'action' => $this->generateUrl('admin.addSweatshirt'),
-            'method' => 'POST'
+            'method' => 'POST',
         ]);
         $form->handleRequest($request);
 
@@ -77,24 +77,31 @@ final class AdminController extends AbstractController
         return $this->redirectToRoute('admin.index');
     }
 
-    #[Route('admin/edit/sweatshirt', name: 'admin.editSweatshirt', methods: ['POST'])]
-    public function editSweatshirt(Request $request, SweatshirtRepository $sweatshirtRepository ,SweatshirtManager $manager): Response
+   #[Route('admin/edit/sweatshirt', name: 'admin.editSweatshirt', methods: ['POST'])]
+    public function editSweatshirt(Request $request, SweatshirtRepository $sweatshirtRepository, SweatshirtManager $manager): Response
     {
         $id = $request->request->get('sweatshirt_id');
         $sweatshirt = $sweatshirtRepository->find($id);
 
-        if($sweatshirt) {
-            $form = $this->createForm(SweatshirtType::class, $sweatshirt);
+        if ($sweatshirt) {
+
+            $form = $this->createForm(SweatshirtType::class, $sweatshirt, [
+                'action' => $this->generateUrl('admin.editSweatshirt'),
+                'method' => 'POST',
+            ]);
             $form->handleRequest($request);
 
             if($form->isSubmitted() && $form->isValid()) {
-                $manager->saveSweatshirt($sweatshirt);
-                $this->addFlash('success', 'Sweatshirt modifié');
-            }
+
+                    $manager->saveSweatshirt($sweatshirt);
+                    $this->addFlash('success', 'Sweatshirt ajouté');
+                }
         }
 
         return $this->redirectToRoute('admin.index');
     }
+
+
 
     #[Route('admin/delete/sweatshirt', name: 'admin.deleteSweatshirt', methods: ['POST'])]
     public function deleteSweatshirt(Request $request, SweatshirtRepository $sweatshirtRepository, SweatshirtManager $manager): Response

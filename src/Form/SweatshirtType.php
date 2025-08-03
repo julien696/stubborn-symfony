@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class SweatshirtType extends AbstractType
 {
@@ -19,7 +20,7 @@ class SweatshirtType extends AbstractType
                 'attr' => ['class'=>'form-control'],
             ])
             ->add('price', NumberType::class, [
-                'attr' => ['class'=>'form-control']
+                'attr' => ['class'=>'form-control'],
             ])
             ->add('top', CheckboxType::class, [
                 'label' => 'Mettre en avant',
@@ -28,6 +29,10 @@ class SweatshirtType extends AbstractType
                 'label_attr' => ['class' => 'form-check-label'],
                 'row_attr' => ['class' => 'form-check']
             ])
+            ->add('imageFile', VichImageType::class, [
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+            ]);
         ;
     }
 
