@@ -4,8 +4,6 @@
 
 {% block body %}
 <main>
-    <h1>Accueil</h1>
-    <a href="{{path('products.index')}}">Produits</a>
     <div class="d-flex justify-content-between m-4">
     {% for sweatshirt in sweatshirtsTop %}
         {% include 'partials/sweatshirtCard.html.twig' %}

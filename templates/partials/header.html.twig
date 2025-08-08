@@ -1,0 +1,49 @@
+
+{% if app.user %}
+<header>
+    <div class="d-flex flex-row justify-content-between align-items-top p-3 m-3">
+        <figure class="d-flex flex-column align-items-center m-0">
+            <img src="{{ asset('image/Logo.jpg') }}" alt="Logo Stubborn" class="img-fluid" style="max-width: 150px;">
+            <figcaption>Don't compromise on your look</figcaption>
+        </figure>
+        <nav>
+            <ul class="nav">
+                <li class="nav-item">
+                    <a href="{{path('home')}}" class="nav-link">Acceuil</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{path('products.index')}}" class="nav-link">Boutique</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{path('cart.index')}}" class="nav-link">Panier</a>
+                </li>
+                  <li class="nav-item">
+                    <a href="{{ path('logout') }}" class="nav-link">Déconnexion</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+{% else %}
+<header>
+    <div class="d-flex flex-row justify-content-between align-items-top p-3 m-3">
+        <figure class="d-flex flex-column align-items-center m-0">
+            <img src="{{ asset('image/Logo.jpg') }}" alt="Logo Stubborn" class="img-fluid" style="max-width: 150px;">
+            <figcaption>Don't compromise on your look</figcaption>
+        </figure>
+        <nav>
+            <ul class="nav">
+                <li class="nav-item">
+                    <a href="{{path('home')}}" class="nav-link">Acceuil</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{path('register')}}" class="nav-link">S'inscrire</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{path('login')}}" class="nav-link">Se connecter</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+{% endif %}
