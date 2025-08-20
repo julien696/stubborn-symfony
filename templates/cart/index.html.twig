@@ -44,6 +44,8 @@
         </tfoot>
     </table>
 {% endif %}
-
-<a href="{{ path('products.index') }}" class="btn btn-primary">Continuer mes achats</a>
+<div class="d-flex justify-content-between mt-3">
+    <a href="{{ path('products.index') }}" class="btn btn-primary">Continuer mes achats</a>
+    <a href="{{ path('checkout') }}" class="btn btn-primary">Payer</a>
+</div>
 {% endblock %}

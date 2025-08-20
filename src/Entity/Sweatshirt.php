@@ -38,6 +38,12 @@ class Sweatshirt
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $stripeProductId = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $stripePriceId = null;
+
 
     /**
      * @var Collection<int, SweatshirtSize>
@@ -128,6 +134,29 @@ class Sweatshirt
     {
         $this->updatedAt = $updatedAt;
     }
+
+    public function getStripeProductId(): ?string
+    {
+        return $this->stripeProductId;
+    }
+
+    public function setStripeProductId(?string $stripeProductId): self
+    {
+        $this->stripeProductId = $stripeProductId;
+        return $this;
+    }
+
+    public function getStripePriceId(): ?string
+    {
+        return $this->stripePriceId;
+    }
+
+    public function setStripePriceId(?string $stripePriceId): self
+    {
+        $this->stripePriceId = $stripePriceId;
+        return $this;
+    }
+
 
     /**
      * @return Collection<int, SweatshirtSize>
