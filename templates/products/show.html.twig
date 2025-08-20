@@ -4,24 +4,37 @@
 
 {% block body %}
 <h1>Produit</h1>
-<a href='{{path('home')}}'>Accueil</a>
-<div class="d-flex flex-column align-items-center">
-    <!-- <img src="" alt=""> -->
-    <div class="w-75 text-center">
-        <div>
-            <div>
-                <h2 class="mb-2">{{sweatshirt.name}}</h2>
-                <span class="d-block mb-3">{{sweatshirt.price}}</span>
+<div class="container my-4">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{ vich_uploader_asset(sweatshirt, 'imageFile') }}" 
+                 alt="Image Sweatshirt {{ sweatshirt.name }}" 
+                 class="img-fluid" 
+                 style="max-height: 400px; object-fit: contain;">
+        </div>
+        <div class="col-md-6 d-flex flex-column justify-content-start">
+            <div class="mb-3">        
+                <h2 class="card-title">{{ sweatshirt.name }}</h2>
+                <span class="card-text d-block">Prix : {{ sweatshirt.price }}€</span>
             </div>
             {{ form_start(form, {
-                'attr': {'id': 'add-to-cart-form'},
-                'action': path('cart_add_sweatshirt', {'id': sweatshirt.id}),
-                'method': 'POST'}) }}
-                {{ form_row(form.sweatshirtSize, {'attr': {'class': 'form-select mb-3 text-center', 'size': '5'}}) }}
-                {{ form_row(form.quantity, {'attr': {'class': 'form-control mb-3'}}) }}
+                attr: {'id': 'add-to-cart-form'},
+                action: path('cart_add_sweatshirt', {'id': sweatshirt.id}),
+                method: 'POST'
+            }) }}
+                {{ form_row(form.sweatshirtSize, {
+                    attr: {'class': 'form-select',
+                    'size': '5',
+                    'style': 'width: auto;'}
+                }) }}
+                {{ form_row(form.quantity, {
+                    attr: {'class': 'form-control my-3',
+                    'style': 'width: 100px;'}
+                }) }}
             {{ form_end(form) }}
+            <button type="submit" form="add-to-cart-form" class="btn btn-outline-primary mt-2" style="width:200px;">Ajouter au panier</button>
         </div>
-        <button type="submit" form="add-to-cart-form" class="btn btn-primary">Ajouter au panier</button>
     </div>
 </div>
 {% endblock %}
+

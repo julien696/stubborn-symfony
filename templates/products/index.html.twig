@@ -4,10 +4,11 @@
 
 {% block body %}
 <h1>Produits</h1>
-<a href='{{path('home')}}'>Accueil</a>
-<div class="d-flex flex-wrap gap-3 mx-3">    
+<div class="row">
     {% for sweatshirt in sweatshirts %}
-        {% include 'partials/sweatshirtCard.html.twig' with {'sweatshirt': sweatshirt} %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+            {% include 'partials/sweatshirtCard.html.twig' with {'sweatshirt': sweatshirt} %}
+        </div>
     {% endfor %}
 </div>    
 {% endblock %}

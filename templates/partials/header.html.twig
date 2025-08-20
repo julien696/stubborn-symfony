@@ -9,16 +9,24 @@
         <nav>
             <ul class="nav">
                 <li class="nav-item">
-                    <a href="{{path('home')}}" class="nav-link">Acceuil</a>
+                    <a href="{{path('home')}}" class="nav-link {% if app.request.attributes.get('_route') == 'home' %}fw-bold border-bottom border-3 border-primary{% endif %}">
+                        Acceuil
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{path('products.index')}}" class="nav-link">Boutique</a>
+                    <a href="{{path('products.index')}}" class="nav-link {% if app.request.attributes.get('_route') == 'products.index' %}fw-bold border-bottom border-3 border-primary{% endif %}">
+                        Boutique
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{path('cart.index')}}" class="nav-link">Panier</a>
+                    <a href="{{path('cart.index')}}" class="nav-link {% if app.request.attributes.get('_route') == 'cart.index' %}fw-bold border-bottom border-3 border-primary{% endif %}">
+                        Panier
+                    </a>
                 </li>
                   <li class="nav-item">
-                    <a href="{{ path('logout') }}" class="nav-link">Déconnexion</a>
+                    <a href="{{ path('logout') }}" class="nav-link {% if app.request.attributes.get('_route') == 'logout' %}fw-bold border-bottom border-3 border-primary{% endif %}">
+                        Déconnexion
+                    </a>
                 </li>
             </ul>
         </nav>
@@ -33,14 +41,20 @@
         </figure>
         <nav>
             <ul class="nav">
-                <li class="nav-item">
-                    <a href="{{path('home')}}" class="nav-link">Acceuil</a>
+                <li class="nav-item ">
+                    <a href="{{path('home')}}" class="nav-link {% if app.request.attributes.get('_route') == 'home' %}fw-bold border-bottom border-3 border-primary{% endif %}">
+                        Acceuil
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{path('register')}}" class="nav-link">S'inscrire</a>
+                    <a href="{{path('register')}}" class="nav-link {% if app.request.attributes.get('_route') == 'register' %}fw-bold border-bottom border-3 border-primary{% endif %}">
+                        S'inscrire
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{path('login')}}" class="nav-link">Se connecter</a>
+                    <a href="{{path('login')}}" class="nav-link {% if app.request.attributes.get('_route') == 'login' %}fw-bold border-bottom border-3 border-primary{% endif %}">
+                        Se connecter
+                    </a>
                 </li>
             </ul>
         </nav>
