@@ -9,14 +9,19 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Stripe\Stripe;
+use Stripe\Product;
+use Stripe\Price;
 
 class AppFixtures extends Fixture
 {
-    public function __construct(private UserPasswordHasherInterface $passwordHasher) {}
+
+    public function __construct(private UserPasswordHasherInterface $passwordHasher, private string $stripeSecretKey) {}
     
 
     public function load(ObjectManager $manager): void
     {
+        Stripe::setApiKey($this->stripeSecretKey);
         $sizeLabels = ['xs', 's', 'm', 'l', 'xl'];
         $sizes = [];
 
@@ -150,12 +155,28 @@ class AppFixtures extends Fixture
             ],
         ];
 
+        $sweatshirtRepo = $manager->getRepository(Sweatshirt::class);
+
         foreach($sweatshirts as $data) {
+            $existing = $sweatshirtRepo->findOneBy(['name' => $data['name']]);
+            if($existing) {
+                continue;
+            }
+
+            $stripeProduct = Product::create(['name'=> $data['name']]);
+            $stripePrice = Price::create([
+                'unit_amount' => (int)($data['price'] * 100),
+                'currency' => 'eur',
+                'product' => $stripeProduct->id,
+            ]);
+
             $sweatshirt = new Sweatshirt();
             $sweatshirt->setName($data['name']);
             $sweatshirt->setPrice($data['price']);
             $sweatshirt->setImageName($data['image']);
             $sweatshirt->setTop($data['top']);
+            $sweatshirt->setStripeProductId($stripeProduct->id);
+            $sweatshirt->setStripePriceId($stripePrice->id);
 
             $manager->persist($sweatshirt);
 
