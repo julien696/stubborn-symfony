@@ -3,15 +3,18 @@
 namespace App\Services;
 
 use App\Entity\SweatshirtSize;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class CartService
 {
     private $session;
+    private $em;
 
-    public function __construct(RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $em)
     {
         $this->session = $requestStack->getSession();
+        $this->em = $em;
     }
 
     public function addItem(SweatshirtSize $sweatshirtSize, int $quantity): void
@@ -36,6 +39,24 @@ class CartService
         return $this->session->get('cart', []);
     }
 
+    public function getDetailedCart(): array
+    {
+        $cart = $this->getItems();
+        $detailedCart = [];
+
+        foreach ($cart as $id => $item) {
+            $sweatshirtSize = $this->em->getRepository(SweatshirtSize::class)->find($item['sweatshirtSize']);
+            if ($sweatshirtSize) {
+                $detailedCart[] = [
+                    'sweatshirtSize' => $sweatshirtSize,
+                    'quantity' => $item['quantity'],
+                ];
+            }
+        }
+
+        return $detailedCart;
+    }
+
     public function removeItems(): void
     {
         $this->session->remove('cart');
@@ -47,7 +68,7 @@ class CartService
 
         if( isset($cart[$id])) {
             unset($cart[$id]);
-            $this->session->set('cart', []);
+            $this->session->set('cart', $cart);
         }
     }
 
