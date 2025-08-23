@@ -3,28 +3,28 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
+{% for flash_error in app.flashes('verify_email_error') %}
+    <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+{% endfor %}
 
-    <main>
-        <div class="container border p-3 w-25 mt-5 mb-5">
-            <h1>S'inscrire</h1>
-                <div class="pt-3 pb-3">
-                    {{ form_errors(registrationForm) }}
+<main>
+    <div class="container border p-3 w-25 mt-5 mb-5">
+        <h1>S'inscrire</h1>
+            <div class="pt-3 pb-3">
+                {{ form_errors(registrationForm) }}
 
-                    {{ form_start(registrationForm, {'attr': {'class': 'border-top border-bottom border-info pt-3 pb-3'}}) }}
-                        {{ form_row(registrationForm.name) }}
-                        {{ form_row(registrationForm.email) }}
-                        {{ form_row(registrationForm.delivery_address)}}
-                        {{ form_row(registrationForm.plainPassword) }}
-                        <button type="submit" class="btn btn-primary">Créer un compte</button>
-                    {{ form_end(registrationForm) }}
-                    <div class="d-flex flex-column mt-4">
-                        <span class="block mb-1">Déjà inscrit?</span>
-                        <a href="{{path('login')}}" class="btn btn-primary align-self-start">Se Connecter</a>
-                    </div>
+                {{ form_start(registrationForm, {'attr': {'class': 'border-top border-bottom border-info pt-3 pb-3'}}) }}
+                    {{ form_row(registrationForm.name) }}
+                    {{ form_row(registrationForm.email) }}
+                    {{ form_row(registrationForm.delivery_address)}}
+                    {{ form_row(registrationForm.plainPassword) }}
+                    <button type="submit" class="btn btn-primary">Créer un compte</button>
+                {{ form_end(registrationForm) }}
+                <div class="d-flex flex-column mt-4">
+                    <span class="block mb-1">Déjà inscrit?</span>
+                    <a href="{{path('login')}}" class="btn btn-primary align-self-start">Se Connecter</a>
                 </div>
-        </div>
-    </main>
+            </div>
+    </div>
+</main>
 {% endblock %}
