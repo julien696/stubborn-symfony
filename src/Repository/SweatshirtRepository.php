@@ -27,6 +27,18 @@ class SweatshirtRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function sortByPriceRange(int $min, int $max): array
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.price >= :min')
+            ->andWhere('s.price <= :max')
+            ->setParameter('min', $min)
+            ->setParameter('max', $max)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     
 //    /**
 //     * @return Sweatshirt[] Returns an array of Sweatshirt objects

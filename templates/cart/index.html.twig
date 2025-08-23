@@ -3,49 +3,51 @@
 {% block title %}Mon panier{% endblock %}
 
 {% block body %}
-<h1>Mon panier</h1>
+<main>
+    <h1>Mon panier</h1>
 
-{% if cart is empty %}
-    <div class="alert alert-info">Votre panier est vide.</div>
-{% else %}
-    <table class="table table-bordered">
-        <thead>
-            <tr class="text-center">
-                <th>Produit</th>
-                <th>Taille</th>
-                <th>Quantité</th>
-                <th>Prix unitaire</th>
-                <th>Supprimer article</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% set total = 0 %}
-        {% for item in cart %}
-            <tr class="text-center">
-                <td>{{ item.sweatshirtSize.getSweatshirt().name }}</td>
-                <td>{{ item.sweatshirtSize.getSize().label }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ item.sweatshirtSize.getSweatshirt().price|number_format(2, '.', ' ') }} €</td>
-                <td><a href="{{ path('cart.remove', {'id': item.sweatshirtSize.getId()}) }}">&#x274C;</a></td>
-                <td>
-                    {% set lineTotal = item.quantity * item.sweatshirtSize.getSweatshirt().price %}
-                    {{ lineTotal|number_format(2, '.', ' ') }} €
-                    {% set total = total + lineTotal %}
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-        <tfoot>
-            <tr>
-                <th colspan="5" class="text-end">Total</th>
-                <th>{{ total|number_format(2, '.', ' ') }} €</th>
-            </tr>
-        </tfoot>
-    </table>
-{% endif %}
-<div class="d-flex justify-content-between mt-3">
-    <a href="{{ path('products.index') }}" class="btn btn-primary">Continuer mes achats</a>
-    <a href="{{ path('checkout') }}" class="btn btn-primary">Payer</a>
-</div>
+    {% if cart is empty %}
+        <div class="alert alert-info">Votre panier est vide.</div>
+    {% else %}
+        <table class="table table-bordered">
+            <thead>
+                <tr class="text-center">
+                    <th>Produit</th>
+                    <th>Taille</th>
+                    <th>Quantité</th>
+                    <th>Prix unitaire</th>
+                    <th>Supprimer article</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% set total = 0 %}
+            {% for item in cart %}
+                <tr class="text-center">
+                    <td>{{ item.sweatshirtSize.getSweatshirt().name }}</td>
+                    <td>{{ item.sweatshirtSize.getSize().label }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.sweatshirtSize.getSweatshirt().price|number_format(2, '.', ' ') }} €</td>
+                    <td><a href="{{ path('cart.remove', {'id': item.sweatshirtSize.getId()}) }}">&#x274C;</a></td>
+                    <td>
+                        {% set lineTotal = item.quantity * item.sweatshirtSize.getSweatshirt().price %}
+                        {{ lineTotal|number_format(2, '.', ' ') }} €
+                        {% set total = total + lineTotal %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="5" class="text-end">Total</th>
+                    <th>{{ total|number_format(2, '.', ' ') }} €</th>
+                </tr>
+            </tfoot>
+        </table>
+    {% endif %}
+    <div class="d-flex justify-content-between mt-3">
+        <a href="{{ path('products.index') }}" class="btn btn-primary">Continuer mes achats</a>
+        <a href="{{ path('checkout') }}" class="btn btn-primary">Payer</a>
+    </div>
+</main>
 {% endblock %}

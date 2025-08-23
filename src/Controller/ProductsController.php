@@ -7,15 +7,25 @@ use App\Form\ChooseYourSizeForSweatwhirtType;
 use App\Repository\SweatshirtRepository;
 use App\Repository\SweatshirtSizeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class ProductsController extends AbstractController
 {
     #[Route('/products', name: 'products.index')]
-    public function index(SweatshirtRepository $sweatshirtRepository): Response
+    public function index(Request $request, SweatshirtRepository $sweatshirtRepository): Response
     {
-        $sweatshirts = $sweatshirtRepository->findAll();
+        $range = $request->query->get('price');
+        $sweatshirts = [];
+
+        if($range) {
+            [$min, $max] = explode('-', $range);
+            $sweatshirts = $sweatshirtRepository->sortByPriceRange((int)$min, (int)$max);
+        } else {
+            $sweatshirts = $sweatshirtRepository->findAll();
+        }
+       
         return $this->render('products/index.html.twig', [
             'controller_name' => 'ProductsController',
             'sweatshirts' => $sweatshirts
