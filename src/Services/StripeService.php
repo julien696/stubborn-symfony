@@ -14,8 +14,12 @@ class StripeService
         Stripe::setApiKey($stripeSecretKey);
     }
 
-    public function createCheckoutSessionFromCart(array $cart, ?User $user): Session
+    public function createCheckoutSessionFromCart(array $cart, ?User $user): ?Session
     {
+        if(empty($cart) || !$user) {
+            return null;
+        }
+
         $lineItems = [];
 
         foreach($cart as $item) {
@@ -33,15 +37,19 @@ class StripeService
                 'quantity' => $quantity
             ];
         }
-        return Session::create([
-            'payment_method_types' => ['card'],
-            'line_items' => $lineItems,
-            'mode' => 'payment',
-            'success_url' => $this->router->generate('checkout_success', [], UrlGeneratorInterface::ABSOLUTE_URL),
-            'cancel_url' => $this->router->generate('checkout_cancel', [], UrlGeneratorInterface::ABSOLUTE_URL),
-            'metadata' => [
-                'userId' => $user ? $user->getId() : null,
-            ],
-        ]);
+        try {
+            return Session::create([
+                'payment_method_types' => ['card'],
+                'line_items' => $lineItems,
+                'mode' => 'payment',
+                'success_url' => 'http://localhost:8000' . $this->router->generate('checkout_success'),
+                'cancel_url' => 'http://localhost:8000' . $this->router->generate('checkout_cancel'),
+                'metadata' => [
+                    'userId' => $user->getId(),
+                ],
+            ]);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 }
