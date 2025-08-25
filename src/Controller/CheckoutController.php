@@ -9,7 +9,6 @@ use App\Services\OrderService;
 use App\Services\StripeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -17,12 +16,30 @@ use Symfony\Component\Routing\Attribute\Route;
 final class CheckoutController extends AbstractController
 {
     #[Route('/checkout', name: 'checkout')]
-    public function checkout(CartService $cartService, StripeService $stripeService): RedirectResponse
+    public function checkout(CartService $cartService, StripeService $stripeService): Response
     {
+        if (!$this->getUser()) {
+            $this->addFlash('error', 'Vous devez être connecté pour effectuer un paiement.');
+            return $this->redirectToRoute('app_login');
+        }
+
         $cart = $cartService->getDetailedCart();
+        
+        if (empty($cart)) {
+            $this->addFlash('error', 'Votre panier est vide.');
+            return $this->redirectToRoute('cart.index');
+        }
+        
         $session = $stripeService->createCheckoutSessionFromCart($cart, $this->getUser());
 
-        return $this->redirect($session->url);
+        if ($session && !empty($session->url)) {
+            return $this->render('checkout/redirect.html.twig', [
+                'stripe_url' => $session->url
+            ]);
+        }
+        
+        $this->addFlash('error', 'Impossible de créer la session de paiement. Veuillez réessayer.');
+        return $this->redirectToRoute('cart.index');
     }
 
     #[Route('/checkout/success', name: 'checkout_success')]
